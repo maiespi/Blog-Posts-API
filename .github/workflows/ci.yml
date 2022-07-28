@@ -1,0 +1,39 @@
+# This workflow uses actions that are not certified by GitHub.  They are
+# provided by a third-party and are governed by separate terms of service,
+# privacy policy, and support documentation.
+#
+# This workflow will install a prebuilt Ruby version, install dependencies, and
+# run tests and linters.
+name: "Ruby on Rails CI"
+on: [pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Ensure database file has not changed
+        shell: bash
+        run: |
+          if [[ $(git diff origin/main -- db/development.sqlite3) ]]; then
+            echo "Please do not modify database file. It can be reset by running git checkout origin/main -- db/development.sqlite3"
+            exit 1
+          else
+            echo "Database file intact."
+          fi
+      # Add or replace dependency steps here
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+          bundler-cache: true
+      # Setup
+      - name: Build App
+        run: bundle exec rails db:setup
+      # Add or replace test runners here
+      - name: Run tests
+        run: bundle exec rspec --require rails_helper
