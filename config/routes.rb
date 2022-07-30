@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   namespace :api do
     post '/register', to: 'authentication#create'
     post '/login', to: 'authentication#login'
+    get '/posts', to: 'posts#index'
     resources :posts, only: :create
   end
 
