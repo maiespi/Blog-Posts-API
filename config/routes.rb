@@ -9,7 +9,8 @@ Rails.application.routes.draw do
     post '/register', to: 'authentication#create'
     post '/login', to: 'authentication#login'
     get '/posts', to: 'posts#index'
-    resources :posts, only: :create
+    patch '/posts/:id', to: 'posts#update'
+    resources :posts, only: [:create, :update]
   end
 
   rack_error_handler = ActionDispatch::PublicExceptions.new('public/')
