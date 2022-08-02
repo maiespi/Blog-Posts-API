@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   namespace :api do
     post '/register', to: 'authentication#create'
     post '/login', to: 'authentication#login'
-    resources :posts, only: :create
+    get '/posts', to: 'posts#index'
+    patch '/posts/:id', to: 'posts#update'
+    resources :posts, only: [:create, :update]
   end
 
   rack_error_handler = ActionDispatch::PublicExceptions.new('public/')

@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_14_131737) do
     t.integer "likes", default: 0
     t.integer "reads", default: 0
     t.float "popularity", default: 0.0
-    t.string "tags" # note: comma separated string since sqlite does not support arrays
+    t.string "tags"
   end
 
   create_table "user_posts", force: :cascade do |t|
